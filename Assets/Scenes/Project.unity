@@ -268,9 +268,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCharacter: {fileID: 88619227}
-  speedMagnitude: 5
-  jumpMagnitude: 6
+  normalSpeed: 5
+  runningSpeed: 7
   frictionScale: 0.1
+  jumpMagnitude: 6
   maximumJumps: 2
 --- !u!1 &334460321
 GameObject:

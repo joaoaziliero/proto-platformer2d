@@ -7,18 +7,22 @@ public class MotionControl : MonoBehaviour
     public Rigidbody2D mainCharacter;
 
     [Header("Motion Settings")]
-    [SerializeField] public float speedMagnitude;
-    [SerializeField] public float jumpMagnitude;
+    [SerializeField] public float normalSpeed;
+    [SerializeField] public float runningSpeed;
     [SerializeField] public float frictionScale;
+    [SerializeField] public float jumpMagnitude;
+
 
     [Header("Jump Count")]
     public int maximumJumps;
-    
+
+    private float _speedMagnitude;
     private int _jumpCount;
     private bool _notFloating;
 
     private void Start()
     {
+        _speedMagnitude = normalSpeed;
         _jumpCount = 0;
         _notFloating = true;
     }
@@ -54,13 +58,22 @@ public class MotionControl : MonoBehaviour
     {
         if(_notFloating && _jumpCount < maximumJumps)
         {
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                _speedMagnitude = runningSpeed;
+            }
+            else
+            {
+                _speedMagnitude = normalSpeed;
+            }
+
             if (Input.GetKey(KeyCode.RightArrow))
             {
-                mainCharacter.velocity = new Vector2(speedMagnitude, mainCharacter.velocity.y);
+                mainCharacter.velocity = new Vector2(_speedMagnitude, mainCharacter.velocity.y);
             }
             else if (Input.GetKey(KeyCode.LeftArrow))
             {
-                mainCharacter.velocity = new Vector2(-speedMagnitude, mainCharacter.velocity.y);
+                mainCharacter.velocity = new Vector2(-_speedMagnitude, mainCharacter.velocity.y);
             }
         }
     }
