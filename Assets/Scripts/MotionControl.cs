@@ -4,40 +4,84 @@ using UnityEngine;
 
 public class MotionControl : MonoBehaviour
 {
-    public Rigidbody2D character;
+    public Rigidbody2D mainCharacter;
 
     [Header("Motion Settings")]
-    [SerializeField] public float speed;
+    [SerializeField] public float speedMagnitude;
+    [SerializeField] public float jumpMagnitude;
     [SerializeField] public float frictionScale;
-    [SerializeField] public float jumpScale;
+
+    [Header("Jump Count")]
+    public int maximumJumps;
+    
+    private int _jumpCount;
+    private bool _notFloating;
+
+    private void Start()
+    {
+        _jumpCount = 0;
+        _notFloating = true;
+    }
 
     private void Update()
     {
-
+        HandleVerticalMotion();
+        HandleHorizontalMotion();
+        AccountForFriction();
     }
 
-    private void HandleLateralMotion()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (Input.GetKey(KeyCode.RightArrow))
+        if(mainCharacter.velocity.y >= 0)
         {
-            character.velocity = new Vector2(speed, character.velocity.y);
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            character.velocity = new Vector2(-speed, character.velocity.y);
+            _jumpCount = 0;
         }
 
-        if (character.velocity.x != 0 && character.velocity.y == 0)
+        _notFloating = true;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if(mainCharacter.velocity.y < 0)
         {
-            character.velocity -= character.velocity.normalized * frictionScale;
+            _jumpCount = maximumJumps;
+        }
+
+        _notFloating = false;
+    }
+
+    private void HandleHorizontalMotion()
+    {
+        if(_notFloating && _jumpCount < maximumJumps)
+        {
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                mainCharacter.velocity = new Vector2(speedMagnitude, mainCharacter.velocity.y);
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                mainCharacter.velocity = new Vector2(-speedMagnitude, mainCharacter.velocity.y);
+            }
         }
     }
 
-    private void HandleUpwardMotion()
+    private void HandleVerticalMotion()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(_jumpCount < maximumJumps)
         {
-            character.velocity = jumpScale * Vector2.up;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                mainCharacter.velocity = new Vector2(mainCharacter.velocity.x, jumpMagnitude);
+                _jumpCount++;
+            }
+        }
+    }
+
+    private void AccountForFriction()
+    {
+        if(mainCharacter.velocity.x != 0 && mainCharacter.velocity.y == 0)
+        {
+            mainCharacter.velocity -= mainCharacter.velocity.normalized * frictionScale;
         }
     }
 }
