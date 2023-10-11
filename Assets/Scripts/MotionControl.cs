@@ -16,26 +16,29 @@ public class MotionControl : MonoBehaviour
     [Header("Jump Count")]
     public int maximumJumps;
 
-    //[Header("Fall Animation")]
-    //public float fallThreshold;
-
     private float _speedMagnitude;
     private int _jumpCount;
     private bool _notFloating;
+    private Coroutine _coroutine;
 
     private void Start()
     {
         _speedMagnitude = normalSpeed;
         _jumpCount = 0;
         _notFloating = true;
+        _coroutine = null;
     }
 
     private void Update()
     {
-        //AnimateFall(fallThreshold);
-        HandleVerticalMotion();
         HandleHorizontalMotion();
         AccountForFriction();
+        HandleVerticalMotion();
+
+        if(_coroutine == null)
+        {
+            _coroutine = StartCoroutine(AnimateFall());
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -105,11 +108,13 @@ public class MotionControl : MonoBehaviour
         }
     }
 
-    private void AnimateFall(float fallThreshold)
+    IEnumerator AnimateFall()
     {
-        if(mainCharacter.velocity.y < fallThreshold)
+        if(mainCharacter.velocity.y < 0)
         {
             characterScaling.FallStretch();
+            yield return new WaitForSeconds(characterScaling.fallDuration);
+            _coroutine = null;
         }
     }
 }
