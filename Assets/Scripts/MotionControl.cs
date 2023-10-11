@@ -13,9 +13,11 @@ public class MotionControl : MonoBehaviour
     [SerializeField] public float frictionScale;
     [SerializeField] public float jumpMagnitude;
 
-
     [Header("Jump Count")]
     public int maximumJumps;
+
+    //[Header("Fall Animation")]
+    //public float fallThreshold;
 
     private float _speedMagnitude;
     private int _jumpCount;
@@ -30,6 +32,7 @@ public class MotionControl : MonoBehaviour
 
     private void Update()
     {
+        //AnimateFall(fallThreshold);
         HandleVerticalMotion();
         HandleHorizontalMotion();
         AccountForFriction();
@@ -99,6 +102,14 @@ public class MotionControl : MonoBehaviour
         if(mainCharacter.velocity.x != 0 && mainCharacter.velocity.y == 0)
         {
             mainCharacter.velocity -= mainCharacter.velocity.normalized * frictionScale;
+        }
+    }
+
+    private void AnimateFall(float fallThreshold)
+    {
+        if(mainCharacter.velocity.y < fallThreshold)
+        {
+            characterScaling.FallStretch();
         }
     }
 }

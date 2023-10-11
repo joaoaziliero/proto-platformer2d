@@ -7,9 +7,11 @@ public class CharacterScaling : MonoBehaviour
 {
     [Header("End Values")]
     [SerializeField] public Vector3 scaleOnJump;
+    //[SerializeField] public Vector3 scaleOnFall;
 
     [Header("Durations")]
     [SerializeField] public float jumpDuration;
+    //[SerializeField] public float fallDuration;
 
     public void NormalizeObject()
     {
@@ -21,5 +23,12 @@ public class CharacterScaling : MonoBehaviour
         NormalizeObject();
         gameObject.transform.DOScale(scaleOnJump, jumpDuration)
             .SetLoops(2, LoopType.Yoyo);
+    }
+
+    public void FallStretch()
+    {
+        NormalizeObject();
+        //gameObject.transform.DOScale(scaleOnFall, fallDuration)
+        //    .SetLoops(2, LoopType.Yoyo);
     }
 }
