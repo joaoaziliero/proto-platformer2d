@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 88619228}
   - component: {fileID: 88619227}
   - component: {fileID: 88619230}
+  - component: {fileID: 88619231}
   m_Layer: 0
   m_Name: Main Character
   m_TagString: Untagged
@@ -151,7 +152,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 88619225}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.5, y: -1.5, z: 0}
+  m_LocalPosition: {x: -8, y: -2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -202,7 +203,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.9, y: 1}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &88619229
 SpriteRenderer:
@@ -268,11 +269,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCharacter: {fileID: 88619227}
+  characterScaling: {fileID: 88619231}
   normalSpeed: 5
   runningSpeed: 7
   frictionScale: 0.1
   jumpMagnitude: 6
   maximumJumps: 2
+--- !u!114 &88619231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88619225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e2e2f7ed9ee5214eb1c46ccae238064, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleOnJump: {x: 0.7, y: 1.3, z: 0}
+  scaleOnFall: {x: 1.3, y: 0.7, z: 0}
+  jumpDuration: 0.4
+  fallDuration: 0.2
 --- !u!1 &334460321
 GameObject:
   m_ObjectHideFlags: 0

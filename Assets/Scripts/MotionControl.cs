@@ -5,6 +5,7 @@ using UnityEngine;
 public class MotionControl : MonoBehaviour
 {
     public Rigidbody2D mainCharacter;
+    public CharacterScaling characterScaling;
 
     [Header("Motion Settings")]
     [SerializeField] public float normalSpeed;
@@ -36,12 +37,14 @@ public class MotionControl : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(mainCharacter.velocity.y >= 0)
+        if (mainCharacter.velocity.y >= 0)
         {
             _jumpCount = 0;
         }
 
         _notFloating = true;
+
+        characterScaling.NormalizeObject();
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -84,6 +87,7 @@ public class MotionControl : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                characterScaling.JumpStretch();
                 mainCharacter.velocity = new Vector2(mainCharacter.velocity.x, jumpMagnitude);
                 _jumpCount++;
             }
