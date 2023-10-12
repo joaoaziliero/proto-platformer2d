@@ -20,13 +20,15 @@ public class MotionControl : MonoBehaviour
     private int _jumpCount;
     private bool _notFloating;
     private Coroutine _coroutine;
+    private Coroutine _debugging;
 
-    private void Start()
+    private void Awake()
     {
         _speedMagnitude = normalSpeed;
         _jumpCount = 0;
         _notFloating = true;
         _coroutine = null;
+        _debugging = null;
     }
 
     private void Update()
@@ -39,11 +41,16 @@ public class MotionControl : MonoBehaviour
         {
             _coroutine = StartCoroutine(AnimateFall());
         }
+
+        if(_debugging == null)
+        {
+            _debugging = StartCoroutine(Debugging());
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (mainCharacter.velocity.y >= 0)
+        if (mainCharacter.velocity.y <= 0)
         {
             _jumpCount = 0;
         }
@@ -116,5 +123,13 @@ public class MotionControl : MonoBehaviour
             yield return new WaitForSeconds(characterScaling.fallDuration);
             _coroutine = null;
         }
+    }
+
+    IEnumerator Debugging()
+    {
+        Debug.Log("Jump Count " + _jumpCount);
+        Debug.Log("Not Floating? " + _notFloating);
+        yield return new WaitForSeconds(5);
+        _debugging = null;
     }
 }
