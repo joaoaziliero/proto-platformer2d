@@ -43,7 +43,7 @@ public class MotionControl : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (mainCharacter.velocity.y <= 0)
+        if(mainCharacter.velocity.y <= 0)
         {
             _jumpCount = 0;
         }
@@ -58,9 +58,8 @@ public class MotionControl : MonoBehaviour
         if(mainCharacter.velocity.y < 0)
         {
             _jumpCount = maximumJumps;
+            _notFloating = false;
         }
-
-        _notFloating = false;
     }
 
     private void HandleHorizontalMotion()
