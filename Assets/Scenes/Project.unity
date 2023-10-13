@@ -273,7 +273,7 @@ MonoBehaviour:
   characterScaling: {fileID: 88619231}
   normalSpeed: 5
   runningSpeed: 8
-  frictionScale: 0.1
+  frictionScale: 0.5
   jumpMagnitude: 6
   maximumJumps: 2
 --- !u!114 &88619231
